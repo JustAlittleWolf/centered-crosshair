@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "centered-crosshair",
+	"version": "${version}",
+	"name": "Centered Crosshair",
+	"description": "Centers the crosshair to be perfectly in the middle of the screen",
+	"authors": [
+		"JustAlittleWolf"
+	],
+	"contact": {
+		"sources": "https://github.com/JustAlittleWolf/centered-crosshair"
+	},
+	"license": "MIT",
+	"icon": "assets/centered-crosshair/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": []
+	},
+	"mixins": [
+		"centered-crosshair.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.0",
+		"minecraft": ">=1.20",
+		"java": ">=17"
+	},
+	"suggests": {},
+	"custom": {
+		"loom:injected_interfaces": {
+			"net/minecraft/client/gui/DrawContext": ["me/wolfii/DrawContextFloatDrawTexture"]
+		}
+	}
+}
