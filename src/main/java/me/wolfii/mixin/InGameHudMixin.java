@@ -17,7 +17,7 @@ public class InGameHudMixin {
     @Final
     private static Identifier ICONS;
 
-    @Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+    @Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 0))
     private void drawTextureRedirect(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
         float scaleFactor = (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
         float scaledCenterX = (MinecraftClient.getInstance().getWindow().getFramebufferWidth() / scaleFactor) / 2f;
