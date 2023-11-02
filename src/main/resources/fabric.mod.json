@@ -13,9 +13,6 @@
 	"license": "MIT",
 	"icon": "assets/centered-crosshair/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": []
-	},
 	"mixins": [
 		"centered-crosshair.mixins.json"
 	],
