@@ -12,7 +12,7 @@
 	},
 	"license": "MIT",
 	"icon": "assets/centered-crosshair/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"mixins": [
 		"centered-crosshair.mixins.json"
 	],
