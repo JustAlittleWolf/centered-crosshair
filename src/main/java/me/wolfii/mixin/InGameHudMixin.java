@@ -14,13 +14,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class InGameHudMixin {
     @Shadow
     @Final
-    private static Identifier CROSSHAIR_TEXTURE;
+    private static Identifier ICONS;
 
-    @Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
-    private void drawTextureRedirect(DrawContext instance, Identifier texture, int x, int y, int width, int height) {
+    @Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+    private void drawTextureRedirect(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height) {
         float scaleFactor = (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
         float scaledCenterX = (MinecraftClient.getInstance().getWindow().getFramebufferWidth() / scaleFactor) / 2f;
         float scaledCenterY = (MinecraftClient.getInstance().getWindow().getFramebufferHeight() / scaleFactor) / 2f;
-        instance.centered_crosshair$drawTexture(CROSSHAIR_TEXTURE, Math.round((scaledCenterX - 7.5f) * 4) / 4f, Math.round((scaledCenterY - 7.5f) * 4) / 4f, 15, 15);
+        instance.centered_crosshair$drawTexture(ICONS, Math.round((scaledCenterX - 7.5f) * 4) / 4f, Math.round((scaledCenterY - 7.5f) * 4) / 4f, 15, 15);
     }
 }
