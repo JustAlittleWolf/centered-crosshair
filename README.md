@@ -18,4 +18,4 @@ Example (Red Cross = Screen Center):
 </tr>
 </table>
 
-If the crosshair is an uneven number of pixels wide (e.g. 3), it will still be offcenter but just by one pixel.
+If the crosshair is an uneven number of pixels wide (e.g. 3), it will still be offcenter but just by half a pixel.
