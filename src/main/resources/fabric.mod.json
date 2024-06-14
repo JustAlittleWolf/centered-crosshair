@@ -8,7 +8,8 @@
 		"JustAlittleWolf"
 	],
 	"contact": {
-		"sources": "https://github.com/JustAlittleWolf/centered-crosshair"
+		"issues": "https://github.com/JustAlittleWolf/centered-crosshair/issues/",
+		"sources": "https://github.com/JustAlittleWolf/centered-crosshair/"
 	},
 	"license": "MIT",
 	"icon": "assets/centered-crosshair/icon.png",
