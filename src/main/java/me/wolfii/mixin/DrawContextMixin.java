@@ -34,12 +34,11 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(matrix4f, x1, y1, 0f).texture(u1, v1).next();
-        bufferBuilder.vertex(matrix4f, x1, y2, 0f).texture(u1, v2).next();
-        bufferBuilder.vertex(matrix4f, x2, y2, 0f).texture(u2, v2).next();
-        bufferBuilder.vertex(matrix4f, x2, y1, 0f).texture(u2, v1).next();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(matrix4f, x1, y1, 0f).texture(u1, v1);
+        bufferBuilder.vertex(matrix4f, x1, y2, 0f).texture(u1, v2);
+        bufferBuilder.vertex(matrix4f, x2, y2, 0f).texture(u2, v2);
+        bufferBuilder.vertex(matrix4f, x2, y1, 0f).texture(u2, v1);
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
     }
 }
