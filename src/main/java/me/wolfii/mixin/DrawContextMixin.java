@@ -1,6 +1,5 @@
 package me.wolfii.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.wolfii.DrawContextFloatDrawTexture;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
@@ -14,6 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.util.function.Function;
+
 @Mixin(DrawContext.class)
 public class DrawContextMixin implements DrawContextFloatDrawTexture {
     @Shadow
@@ -21,24 +22,25 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
     private MatrixStack matrices;
     @Shadow
     @Final
+    private VertexConsumerProvider.Immediate vertexConsumers;
+    @Shadow
+    @Final
     private GuiAtlasManager guiAtlasManager;
 
     @Unique
-    public void centered_crosshair$drawTexture(Identifier texture, float x, float y, int width, int height) {
+    public void centered_crosshair$drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier texture, float x, float y, int width, int height) {
         Sprite sprite = this.guiAtlasManager.getSprite(texture);
-        this.drawTexturedQuad(sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU() + (0b1 / 32768f), sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV());
+        this.drawTexturedQuad(renderLayers, sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU() + (0b1 / 32768f), sprite.getMaxU() + (0b1 / 32768f), sprite.getMinV() - (0b1 / 32768f), sprite.getMaxV() - (0b1 / 32768f), -1);
     }
 
     @Unique
-    void drawTexturedQuad(Identifier texture, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2) {
-        RenderSystem.setShaderTexture(0, texture);
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+    void drawTexturedQuad(Function<Identifier, RenderLayer> renderLayers, Identifier texture, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2, int color) {
+        RenderLayer renderLayer = renderLayers.apply(texture);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(matrix4f, x1, y1, 0f).texture(u1, v1);
-        bufferBuilder.vertex(matrix4f, x1, y2, 0f).texture(u1, v2);
-        bufferBuilder.vertex(matrix4f, x2, y2, 0f).texture(u2, v2);
-        bufferBuilder.vertex(matrix4f, x2, y1, 0f).texture(u2, v1);
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        VertexConsumer bufferBuilder = this.vertexConsumers.getBuffer(renderLayer);
+        bufferBuilder.vertex(matrix4f, x1, y1, 0f).texture(u1, v1).color(color);
+        bufferBuilder.vertex(matrix4f, x1, y2, 0f).texture(u1, v2).color(color);
+        bufferBuilder.vertex(matrix4f, x2, y2, 0f).texture(u2, v2).color(color);
+        bufferBuilder.vertex(matrix4f, x2, y1, 0f).texture(u2, v1).color(color);
     }
 }
