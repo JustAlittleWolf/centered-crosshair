@@ -39,7 +39,19 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
     public void centered_crosshair$drawGuiTexture(RenderPipeline pipeline, Identifier texture, float x, float y, int width, int height) {
         if (width == 0 || height == 0) return;
         Sprite sprite = this.guiAtlasManager.getSprite(texture);
-        this.drawTexturedQuad(pipeline, sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU() + (0b1 / 32768f), sprite.getMaxU() + (0b1 / 32768f), sprite.getMinV() - (0b1 / 32768f), sprite.getMaxV() - (0b1 / 32768f), -1);
+        this.drawTexturedQuad(
+            pipeline,
+            sprite.getAtlasId(),
+            x,
+            x + width,
+            y,
+            y + height,
+            sprite.getMinU() + (0b1 / 32768f),
+            sprite.getMaxU() + (0b1 / 32768f),
+            sprite.getMinV() - (0b1 / 32768f),
+            sprite.getMaxV() - (0b1 / 32768f),
+            -1
+        );
     }
 
     @Unique

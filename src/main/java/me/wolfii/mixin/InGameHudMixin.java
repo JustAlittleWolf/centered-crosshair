@@ -22,6 +22,13 @@ public class InGameHudMixin {
         float scaleFactor = (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
         float scaledCenterX = (MinecraftClient.getInstance().getWindow().getFramebufferWidth() / scaleFactor) / 2f;
         float scaledCenterY = (MinecraftClient.getInstance().getWindow().getFramebufferHeight() / scaleFactor) / 2f;
-        instance.centered_crosshair$drawGuiTexture(pipeline, sprite, Math.round((scaledCenterX - 7.5f) * 4) / 4f, Math.round((scaledCenterY - 7.5f) * 4) / 4f, 15, 15);
+        instance.centered_crosshair$drawGuiTexture(
+            pipeline,
+            sprite,
+            Math.round((scaledCenterX - 7.5f) * 4) / 4f,
+            Math.round((scaledCenterY - 7.5f) * 4) / 4f,
+            15,
+            15
+        );
     }
 }
