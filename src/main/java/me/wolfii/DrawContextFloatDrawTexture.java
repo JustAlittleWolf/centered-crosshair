@@ -1,10 +1,8 @@
 package me.wolfii;
 
-import net.minecraft.client.render.RenderLayer;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.util.Identifier;
 
-import java.util.function.Function;
-
 public interface DrawContextFloatDrawTexture {
-    default void centered_crosshair$drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier texture, float x, float y, int width, int height) {}
+    default void centered_crosshair$drawGuiTexture(RenderPipeline pipeline, Identifier texture, float x, float y, int width, int height) {}
 }
