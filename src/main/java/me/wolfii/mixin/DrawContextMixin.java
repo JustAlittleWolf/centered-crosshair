@@ -6,8 +6,8 @@ import me.wolfii.SubpixelPositionedTexturedQuadGuiElementRenderState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.texture.GuiAtlasManager;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix3x2f;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Unique;
 public class DrawContextMixin implements DrawContextFloatDrawTexture {
     @Shadow
     @Final
-    private GuiAtlasManager guiAtlasManager;
+    private SpriteAtlasTexture spriteAtlasTexture;
     @Shadow
     @Final
     private GuiRenderState state;
@@ -38,7 +38,7 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
     @Unique
     public void centered_crosshair$drawGuiTexture(RenderPipeline pipeline, Identifier texture, float x, float y, int width, int height) {
         if (width == 0 || height == 0) return;
-        Sprite sprite = this.guiAtlasManager.getSprite(texture);
+        Sprite sprite = this.spriteAtlasTexture.getSprite(texture);
         this.drawTexturedQuad(
             pipeline,
             sprite.getAtlasId(),
