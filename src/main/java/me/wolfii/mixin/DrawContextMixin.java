@@ -6,6 +6,7 @@ import me.wolfii.SubpixelPositionedTexturedQuadGuiElementRenderState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureSetup;
@@ -24,10 +25,10 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
     private SpriteAtlasTexture spriteAtlasTexture;
     @Shadow
     @Final
-    private GuiRenderState state;
+	GuiRenderState state;
     @Shadow
     @Final
-    private MinecraftClient client;
+	MinecraftClient client;
     @Shadow
     @Final
     private Matrix3x2fStack matrices;
@@ -56,9 +57,10 @@ public class DrawContextMixin implements DrawContextFloatDrawTexture {
 
     @Unique
     void drawTexturedQuad(RenderPipeline pipeline, Identifier sprite, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2, int color) {
+		AbstractTexture abstractTexture = this.client.getTextureManager().getTexture(sprite);
         this.state.addSimpleElement(new SubpixelPositionedTexturedQuadGuiElementRenderState(
             pipeline,
-            TextureSetup.withoutGlTexture(this.client.getTextureManager().getTexture(sprite).getGlTextureView()),
+            TextureSetup.of(abstractTexture.getGlTextureView(), abstractTexture.getSampler()),
             new Matrix3x2f(this.matrices),
             x1,
             y1,

@@ -19,8 +19,8 @@
 	],
     "accessWidener" : "centered-crosshair.accesswidener",
 	"depends": {
-		"fabricloader": ">=0.17.0",
-		"minecraft": ">=1.21.9-rc.1",
+		"fabricloader": ">=0.18.0",
+		"minecraft": ">=1.21.11",
 		"java": ">=21"
 	},
 	"suggests": {},
