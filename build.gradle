@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -7,34 +7,33 @@ version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name + "+" + project.minecraft_version
+	archivesName = project.archives_base_name
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 }
 
 processResources {
 	inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
+	inputs.property "minecraft_version", project.minecraft_version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version,
-                "minecraft_version": project.minecraft_version
+		expand "version": inputs.properties.version,
+                "minecraft_version": inputs.properties.minecraft_version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
@@ -44,5 +43,5 @@ jar {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/centered-crosshair.accesswidener")
+	accessWidenerPath = file("src/main/resources/centered-crosshair.accesswidener")
 }

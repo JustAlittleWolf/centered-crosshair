@@ -1,10 +1,10 @@
 package me.wolfii;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.render.state.SimpleGuiElementRenderState;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.texture.TextureSetup;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import org.joml.Matrix3x2f;
 
 public record SubpixelPositionedTexturedQuadGuiElementRenderState(
@@ -20,9 +20,9 @@ public record SubpixelPositionedTexturedQuadGuiElementRenderState(
     float v1,
     float v2,
     int color,
-    ScreenRect scissorArea,
-    ScreenRect bounds
-) implements SimpleGuiElementRenderState {
+    ScreenRectangle scissorArea,
+    ScreenRectangle bounds
+) implements GuiElementRenderState {
     public SubpixelPositionedTexturedQuadGuiElementRenderState(
         RenderPipeline pipeline,
         TextureSetup textureSetup,
@@ -36,21 +36,21 @@ public record SubpixelPositionedTexturedQuadGuiElementRenderState(
         float v1,
         float v2,
         int color,
-        ScreenRect scissorArea
+        ScreenRectangle scissorArea
     ) {
         this(pipeline, textureSetup, pose, x1, y1, x2, y2, u1, u2, v1, v2, color, scissorArea, createBounds(x1, y1, x2, y2, pose, scissorArea));
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices) {
-        vertices.vertex(this.pose(), this.x1(), this.y1()).texture(this.u1(), this.v1()).color(this.color());
-        vertices.vertex(this.pose(), this.x1(), this.y2()).texture(this.u1(), this.v2()).color(this.color());
-        vertices.vertex(this.pose(), this.x2(), this.y2()).texture(this.u2(), this.v2()).color(this.color());
-        vertices.vertex(this.pose(), this.x2(), this.y1()).texture(this.u2(), this.v1()).color(this.color());
+    public void buildVertices(VertexConsumer vertices) {
+        vertices.addVertexWith2DPose(this.pose(), this.x1(), this.y1()).setUv(this.u1(), this.v1()).setColor(this.color());
+        vertices.addVertexWith2DPose(this.pose(), this.x1(), this.y2()).setUv(this.u1(), this.v2()).setColor(this.color());
+        vertices.addVertexWith2DPose(this.pose(), this.x2(), this.y2()).setUv(this.u2(), this.v2()).setColor(this.color());
+        vertices.addVertexWith2DPose(this.pose(), this.x2(), this.y1()).setUv(this.u2(), this.v1()).setColor(this.color());
     }
 
-    private static ScreenRect createBounds(float x1, float y1, float x2, float y2, Matrix3x2f pose, ScreenRect scissorArea) {
-        ScreenRect screenRect = new ScreenRect(Math.round(x1), Math.round(y1), Math.round(x2 - x1), Math.round(y2 - y1)).transformEachVertex(pose);
+    private static ScreenRectangle createBounds(float x1, float y1, float x2, float y2, Matrix3x2f pose, ScreenRectangle scissorArea) {
+        ScreenRectangle screenRect = new ScreenRectangle(Math.round(x1), Math.round(y1), Math.round(x2 - x1), Math.round(y2 - y1)).transformMaxBounds(pose);
         return scissorArea != null ? scissorArea.intersection(screenRect) : screenRect;
     }
 }
