@@ -25,7 +25,7 @@
     "accessWidener" : "centered-crosshair.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.18.0",
-		"minecraft": "~26.1"
+		"minecraft": ">=26.1"
 	},
 	"suggests": {},
 	"custom": {
