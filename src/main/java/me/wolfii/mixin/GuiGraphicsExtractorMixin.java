@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.Inject;
 
 @Mixin(GuiGraphicsExtractor.class)
 public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
@@ -26,10 +25,10 @@ public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
     private TextureAtlas guiSprites;
     @Shadow
     @Final
-	GuiRenderState guiRenderState;
+    GuiRenderState guiRenderState;
     @Shadow
     @Final
-	Minecraft minecraft;
+    Minecraft minecraft;
     @Shadow
     @Final
     private Matrix3x2fStack pose;
@@ -58,7 +57,7 @@ public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
 
     @Unique
     void drawTexturedQuad(RenderPipeline pipeline, Identifier sprite, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2, int color) {
-		AbstractTexture abstractTexture = this.minecraft.getTextureManager().getTexture(sprite);
+        AbstractTexture abstractTexture = this.minecraft.getTextureManager().getTexture(sprite);
         this.guiRenderState.addGuiElement(new SubpixelPositionedTexturedQuadGuiElementRenderState(
             pipeline,
             TextureSetup.singleTexture(abstractTexture.getTextureView(), abstractTexture.getSampler()),

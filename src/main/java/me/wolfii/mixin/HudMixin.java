@@ -3,15 +3,15 @@ package me.wolfii.mixin;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import me.wolfii.DrawContextFloatDrawTexture;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(Gui.class)
-public class GuiMixin {
+@Mixin(Hud.class)
+public class HudMixin {
     @Redirect(
         method = "extractCrosshair",
         at = @At(

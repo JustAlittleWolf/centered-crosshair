@@ -7,6 +7,6 @@
 	},
 	"client": [
       "GuiGraphicsExtractorMixin",
-      "GuiMixin"
+      "HudMixin"
 	]
 }
