@@ -20,7 +20,7 @@ public class HudMixin {
             target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V", ordinal = 0
         )
     )
-    private void centerTheDamnCrosshair(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier location, int x, int y, int width, int height, Operation<Void> original) {
+    private void centerTheCwosshairPwease(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier location, int x, int y, int width, int height, Operation<Void> original) {
         float scaleFactor = (float) Minecraft.getInstance().getWindow().getGuiScale();
         float scaledCenterX = (Minecraft.getInstance().getWindow().getWidth() / scaleFactor) / 2f;
         float scaledCenterY = (Minecraft.getInstance().getWindow().getHeight() / scaleFactor) / 2f;
