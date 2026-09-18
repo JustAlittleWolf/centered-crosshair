@@ -1,6 +1,6 @@
 package me.wolfii.mixin;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import me.wolfii.DrawContextFloatDrawTexture;
 import me.wolfii.SubpixelPositionedTexturedQuadGuiElementRenderState;
 import net.minecraft.client.Minecraft;
@@ -25,10 +25,10 @@ public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
     private TextureAtlas guiSprites;
     @Shadow
     @Final
-    GuiRenderState guiRenderState;
+    private GuiRenderState guiRenderState;
     @Shadow
     @Final
-    Minecraft minecraft;
+    private Minecraft minecraft;
     @Shadow
     @Final
     private Matrix3x2fStack pose;
@@ -37,11 +37,11 @@ public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
     private GuiGraphicsExtractor.ScissorStack scissorStack;
 
     @Unique
-    public void centered_crosshair$drawGuiTexture(RenderPipeline pipeline, Identifier texture, float x, float y, int width, int height) {
+    public void centered_crosshair$blitSprite(RenderPipeline renderPipeline, Identifier location, float x, float y, int width, int height) {
         if (width == 0 || height == 0) return;
-        TextureAtlasSprite sprite = this.guiSprites.getSprite(texture);
-        this.drawTexturedQuad(
-            pipeline,
+        TextureAtlasSprite sprite = this.guiSprites.getSprite(location);
+        this.blitSprite(
+            renderPipeline,
             sprite.atlasLocation(),
             x,
             x + width,
@@ -56,10 +56,10 @@ public class GuiGraphicsExtractorMixin implements DrawContextFloatDrawTexture {
     }
 
     @Unique
-    void drawTexturedQuad(RenderPipeline pipeline, Identifier sprite, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2, int color) {
-        AbstractTexture abstractTexture = this.minecraft.getTextureManager().getTexture(sprite);
+    void blitSprite(RenderPipeline renderPipeline, Identifier location, float x1, float x2, float y1, float y2, float u1, float u2, float v1, float v2, int color) {
+        AbstractTexture abstractTexture = this.minecraft.getTextureManager().getTexture(location);
         this.guiRenderState.addGuiElement(new SubpixelPositionedTexturedQuadGuiElementRenderState(
-            pipeline,
+            renderPipeline,
             TextureSetup.singleTexture(abstractTexture.getTextureView(), abstractTexture.getSampler()),
             new Matrix3x2f(this.pose),
             x1,
